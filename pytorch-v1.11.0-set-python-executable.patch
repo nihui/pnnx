@@ -1,0 +1,13 @@
+diff -Nuarp pytorch-v1.11.0/cmake/Codegen.cmake pytorch-v1.11.0/cmake/Codegen.cmake
+--- pytorch-v1.11.0/cmake/Codegen.cmake	2022-04-01 15:22:57.265609503 +0800
++++ pytorch-v1.11.0/cmake/Codegen.cmake	2022-04-01 15:27:22.678883218 +0800
+@@ -52,6 +52,9 @@ endif()
+ install(FILES ${CMAKE_BINARY_DIR}/caffe2/core/macros.h
+         DESTINATION include/caffe2/core)
+ 
++find_package(Python COMPONENTS Interpreter)
++set(PYTHON_EXECUTABLE ${Python_EXECUTABLE})
++
+ # ---[ ATen specific
+ if(INTERN_BUILD_ATEN_OPS)
+   if(MSVC)
