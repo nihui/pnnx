@@ -29,6 +29,7 @@ jobs:
         path: pnnx-patches
     - name: libtorch
       run: |
+        pip install --user typing_extensions
         wget https://github.com/pytorch/pytorch/releases/download/v1.11.0/pytorch-v1.11.0.tar.gz
         tar -xf pytorch-v1.11.0.tar.gz
         cd pytorch-v1.11.0
@@ -86,6 +87,7 @@ jobs:
         path: pnnx-patches
     - name: libtorch
       run: |
+        pip install --user typing_extensions
         wget https://github.com/pytorch/pytorch/releases/download/v1.11.0/pytorch-v1.11.0.tar.gz
         tar -xf pytorch-v1.11.0.tar.gz
         cd pytorch-v1.11.0
@@ -143,6 +145,7 @@ jobs:
         path: pnnx-patches
     - name: libtorch
       run: |
+        pip install --user typing_extensions
         Invoke-WebRequest -Uri https://github.com/pytorch/pytorch/releases/download/v1.11.0/pytorch-v1.11.0.tar.gz -OutFile pytorch-v1.11.0.tar.gz
         7z x pytorch-v1.11.0.tar.gz
         7z x pytorch-v1.11.0.tar
