@@ -29,10 +29,10 @@ jobs:
         path: pnnx-patches
     - name: libtorch
       run: |
-        pip install --user typing_extensions
         wget https://github.com/pytorch/pytorch/releases/download/v1.11.0/pytorch-v1.11.0.tar.gz
         tar -xf pytorch-v1.11.0.tar.gz
         cd pytorch-v1.11.0
+        pip install -r requirements.txt
         patch -p1 -i $GITHUB_WORKSPACE/pnnx-patches/pytorch-v1.11.0-fix-mobile-build.patch
         patch -p1 -i $GITHUB_WORKSPACE/pnnx-patches/pytorch-v1.11.0-no-link-system-lib.patch
         mkdir -p build; cd build
@@ -87,10 +87,10 @@ jobs:
         path: pnnx-patches
     - name: libtorch
       run: |
-        pip install --user typing_extensions
         wget https://github.com/pytorch/pytorch/releases/download/v1.11.0/pytorch-v1.11.0.tar.gz
         tar -xf pytorch-v1.11.0.tar.gz
         cd pytorch-v1.11.0
+        pip install -r requirements.txt
         patch -p1 -i $GITHUB_WORKSPACE/pnnx-patches/pytorch-v1.11.0-fix-mobile-build.patch
         patch -p1 -i $GITHUB_WORKSPACE/pnnx-patches/pytorch-v1.11.0-no-link-system-lib.patch
         mkdir -p build; cd build
@@ -145,11 +145,11 @@ jobs:
         path: pnnx-patches
     - name: libtorch
       run: |
-        pip install --user typing_extensions
         Invoke-WebRequest -Uri https://github.com/pytorch/pytorch/releases/download/v1.11.0/pytorch-v1.11.0.tar.gz -OutFile pytorch-v1.11.0.tar.gz
         7z x pytorch-v1.11.0.tar.gz
         7z x pytorch-v1.11.0.tar
         cd pytorch-v1.11.0
+        pip install -r requirements.txt
         C:\msys64\usr\bin\patch.exe -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\pytorch-v1.11.0-fix-mobile-build.patch
         C:\msys64\usr\bin\patch.exe -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\pytorch-v1.11.0-no-link-system-lib.patch
         mkdir -p build; cd build
