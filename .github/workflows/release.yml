@@ -20,6 +20,9 @@ jobs:
     env:
       PACKAGENAME: pnnx-${{ needs.setup.outputs.VERSION }}-ubuntu
     steps:
+    - uses: actions/setup-python@v3
+      with:
+        python-version: '3.x'
     - name: pnnx-patches
       uses: actions/checkout@v3
       with:
@@ -74,6 +77,9 @@ jobs:
     env:
       PACKAGENAME: pnnx-${{ needs.setup.outputs.VERSION }}-macos
     steps:
+    - uses: actions/setup-python@v3
+      with:
+        python-version: '3.x'
     - name: pnnx-patches
       uses: actions/checkout@v3
       with:
@@ -128,6 +134,9 @@ jobs:
     env:
       PACKAGENAME: pnnx-${{ needs.setup.outputs.VERSION }}-windows
     steps:
+    - uses: actions/setup-python@v3
+      with:
+        python-version: '3.x'
     - name: pnnx-patches
       uses: actions/checkout@v3
       with:
@@ -136,6 +145,7 @@ jobs:
       run: |
         Invoke-WebRequest -Uri https://github.com/pytorch/pytorch/releases/download/v1.11.0/pytorch-v1.11.0.tar.gz -OutFile pytorch-v1.11.0.tar.gz
         7z x pytorch-v1.11.0.tar.gz
+        7z x pytorch-v1.11.0.tar
         cd pytorch-v1.11.0
         C:\msys64\usr\bin\patch.exe -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\pytorch-v1.11.0-fix-mobile-build.patch
         C:\msys64\usr\bin\patch.exe -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\pytorch-v1.11.0-no-link-system-lib.patch
