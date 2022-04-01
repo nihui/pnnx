@@ -44,7 +44,7 @@ jobs:
         wget https://github.com/pytorch/vision/archive/refs/tags/v0.12.0.zip -O vision-0.12.0.zip
         unzip -q vision-0.12.0.zip
         cd vision-0.12.0
-        patch -p1 -i $GITHUB_WORKSPACE/pnnx-patches/vision-0.12.0-ops-only.patch
+        patch -p1 -i $GITHUB_WORKSPACE/pnnx-patches/vision-0.11.1-ops-only.patch
         mkdir -p build; cd build
         cmake -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/libtorch" -DTorch_DIR="$GITHUB_WORKSPACE/libtorch/share/cmake/Torch" -DCMAKE_BUILD_TYPE=Release ..
         cmake --build . -j 2
@@ -102,7 +102,7 @@ jobs:
         wget https://github.com/pytorch/vision/archive/refs/tags/v0.12.0.zip -O vision-0.12.0.zip
         unzip -q vision-0.12.0.zip
         cd vision-0.12.0
-        patch -p1 -i $GITHUB_WORKSPACE/pnnx-patches/vision-0.12.0-ops-only.patch
+        patch -p1 -i $GITHUB_WORKSPACE/pnnx-patches/vision-0.11.1-ops-only.patch
         mkdir -p build; cd build
         cmake -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/libtorch" -DTorch_DIR="$GITHUB_WORKSPACE/libtorch/share/cmake/Torch" -DCMAKE_BUILD_TYPE=Release ..
         cmake --build . -j 3
@@ -162,7 +162,7 @@ jobs:
         Invoke-WebRequest -Uri https://github.com/pytorch/vision/archive/refs/tags/v0.12.0.zip -OutFile vision-0.12.0.zip
         7z x vision-0.12.0.zip
         cd vision-0.12.0
-        C:\msys64\usr\bin\patch.exe -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\vision-0.12.0-ops-only.patch
+        C:\msys64\usr\bin\patch.exe -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\vision-0.11.1-ops-only.patch
         mkdir -p build; cd build
         cmake -DCMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/libtorch" -DTorch_DIR="$env:GITHUB_WORKSPACE/libtorch/share/cmake/Torch" ..
         cmake --build . --config Release -j 2
