@@ -1,0 +1,44 @@
+diff -Nuarp vision-0.12.0/cmake/TorchVisionConfig.cmake.in vision-0.12.0.new/cmake/TorchVisionConfig.cmake.in
+--- vision-0.12.0/cmake/TorchVisionConfig.cmake.in	2022-03-09 14:51:02.000000000 +0800
++++ vision-0.12.0.new/cmake/TorchVisionConfig.cmake.in	2022-04-01 20:55:08.519755331 +0800
+@@ -34,7 +34,7 @@ if (@USE_PYTHON@)
+   endif()
+ endif()
+ 
+-set_target_properties(TorchVision::TorchVision PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${${PN}_INCLUDE_DIR}" INTERFACE_LINK_LIBRARIES "torch;Python3::Python" )
++set_target_properties(TorchVision::TorchVision PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${${PN}_INCLUDE_DIR}" INTERFACE_LINK_LIBRARIES "torch" )
+ 
+ 
+ if(@WITH_CUDA@)
+diff -Nuarp vision-0.12.0/CMakeLists.txt vision-0.12.0.new/CMakeLists.txt
+--- vision-0.12.0/CMakeLists.txt	2022-03-09 14:51:02.000000000 +0800
++++ vision-0.12.0.new/CMakeLists.txt	2022-04-01 20:53:49.927293080 +0800
+@@ -24,8 +24,6 @@ if (USE_PYTHON)
+ endif()
+ 
+ find_package(Torch REQUIRED)
+-find_package(PNG REQUIRED)
+-find_package(JPEG REQUIRED)
+ 
+ function(CUDA_CONVERT_FLAGS EXISTING_TARGET)
+     get_property(old_flags TARGET ${EXISTING_TARGET} PROPERTY INTERFACE_COMPILE_OPTIONS)
+@@ -69,8 +67,8 @@ include(GNUInstallDirs)
+ include(CMakePackageConfigHelpers)
+ 
+ set(TVCPP torchvision/csrc)
+-list(APPEND ALLOW_LISTED ${TVCPP} ${TVCPP}/io/image ${TVCPP}/io/image/cpu ${TVCPP}/models ${TVCPP}/ops
+-  ${TVCPP}/ops/autograd ${TVCPP}/ops/cpu ${TVCPP}/io/image/cuda)
++list(APPEND ALLOW_LISTED ${TVCPP} ${TVCPP}/ops
++  ${TVCPP}/ops/autograd ${TVCPP}/ops/cpu)
+ if(WITH_CUDA)
+     list(APPEND ALLOW_LISTED ${TVCPP}/ops/cuda ${TVCPP}/ops/autocast)
+ endif()
+@@ -80,7 +78,7 @@ FOREACH(DIR ${ALLOW_LISTED})
+ ENDFOREACH()
+ 
+ add_library(${PROJECT_NAME} SHARED ${ALL_SOURCES})
+-target_link_libraries(${PROJECT_NAME} PRIVATE ${TORCH_LIBRARIES} ${PNG_LIBRARY} ${JPEG_LIBRARIES})
++target_link_libraries(${PROJECT_NAME} PRIVATE ${TORCH_LIBRARIES})
+ 
+ if (USE_PYTHON)
+   target_link_libraries(${PROJECT_NAME} PRIVATE Python3::Python)
