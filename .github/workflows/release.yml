@@ -38,7 +38,7 @@ jobs:
         mkdir -p build; cd build
         cmake -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/libtorch" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_PYTHON=OFF -DUSE_KINETO=OFF -DUSE_BREAKPAD=OFF -DUSE_NUMPY=OFF -DUSE_CUDA=OFF -DUSE_DISTRIBUTED=OFF -DUSE_MKLDNN=OFF -DUSE_OPENMP=OFF -DINTERN_BUILD_MOBILE=ON -DINTERN_DISABLE_ONNX=ON -DINTERN_DISABLE_AUTOGRAD=ON -DBUILD_CAFFE2_OPS=OFF -DBUILD_CAFFE2_MOBILE=OFF -DBUILD_LITE_INTERPRETER=OFF -DUSE_SOURCE_DEBUG_ON_MOBILE=OFF -DUSE_LITE_INTERPRETER_PROFILER=OFF -DBUILD_CUSTOM_PROTOBUF=ON ..
         cmake --build . -j 2
-        cmake --build . --target install
+        cmake --build . --target install/strip
     - name: torchvision
       run: |
         wget https://github.com/pytorch/vision/archive/refs/tags/v0.12.0.zip -O vision-0.12.0.zip
@@ -48,7 +48,7 @@ jobs:
         mkdir -p build; cd build
         cmake -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/libtorch" -DTorch_DIR="$GITHUB_WORKSPACE/libtorch/share/cmake/Torch" -DCMAKE_BUILD_TYPE=Release ..
         cmake --build . -j 2
-        cmake --build . --target install
+        cmake --build . --target install/strip
     - name: ncnn
       uses: actions/checkout@v3
       with:
@@ -60,7 +60,7 @@ jobs:
         mkdir build && cd build
         cmake -DCMAKE_INSTALL_PREFIX=install -DTorch_INSTALL_DIR="$GITHUB_WORKSPACE/libtorch" -DTorchVision_INSTALL_DIR="$GITHUB_WORKSPACE/libtorch" -DCMAKE_BUILD_TYPE=Release ..
         cmake --build . -j 2
-        cmake --build . --target install
+        cmake --build . --target install/strip
     - name: package
       run: |
         mkdir ${{ env.PACKAGENAME }}
@@ -96,7 +96,7 @@ jobs:
         mkdir -p build; cd build
         cmake -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/libtorch" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_PYTHON=OFF -DUSE_KINETO=OFF -DUSE_BREAKPAD=OFF -DUSE_NUMPY=OFF -DUSE_CUDA=OFF -DUSE_DISTRIBUTED=OFF -DUSE_MKLDNN=OFF -DUSE_OPENMP=OFF -DINTERN_BUILD_MOBILE=ON -DINTERN_DISABLE_ONNX=ON -DINTERN_DISABLE_AUTOGRAD=ON -DBUILD_CAFFE2_OPS=OFF -DBUILD_CAFFE2_MOBILE=OFF -DBUILD_LITE_INTERPRETER=OFF -DUSE_SOURCE_DEBUG_ON_MOBILE=OFF -DUSE_LITE_INTERPRETER_PROFILER=OFF -DBUILD_CUSTOM_PROTOBUF=ON ..
         cmake --build . -j 3
-        cmake --build . --target install
+        cmake --build . --target install/strip
     - name: torchvision
       run: |
         wget https://github.com/pytorch/vision/archive/refs/tags/v0.12.0.zip -O vision-0.12.0.zip
@@ -106,7 +106,7 @@ jobs:
         mkdir -p build; cd build
         cmake -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/libtorch" -DTorch_DIR="$GITHUB_WORKSPACE/libtorch/share/cmake/Torch" -DCMAKE_BUILD_TYPE=Release ..
         cmake --build . -j 3
-        cmake --build . --target install
+        cmake --build . --target install/strip
     - name: ncnn
       uses: actions/checkout@v3
       with:
@@ -118,7 +118,7 @@ jobs:
         mkdir build && cd build
         cmake -DCMAKE_INSTALL_PREFIX=install -DTorch_INSTALL_DIR="$GITHUB_WORKSPACE/libtorch" -DTorchVision_INSTALL_DIR="$GITHUB_WORKSPACE/libtorch" -DCMAKE_BUILD_TYPE=Release ..
         cmake --build . -j 3
-        cmake --build . --target install
+        cmake --build . --target install/strip
     - name: package
       run: |
         mkdir ${{ env.PACKAGENAME }}
@@ -156,7 +156,7 @@ jobs:
         mkdir -p build; cd build
         cmake -DCMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/libtorch" -DBUILD_SHARED_LIBS=OFF -DBUILD_PYTHON=OFF -DUSE_KINETO=OFF -DUSE_BREAKPAD=OFF -DUSE_NUMPY=OFF -DUSE_CUDA=OFF -DUSE_DISTRIBUTED=OFF -DUSE_MKLDNN=OFF -DUSE_OPENMP=OFF -DINTERN_BUILD_MOBILE=ON -DINTERN_DISABLE_ONNX=ON -DINTERN_DISABLE_AUTOGRAD=ON -DBUILD_CAFFE2_OPS=OFF -DBUILD_CAFFE2_MOBILE=OFF -DBUILD_LITE_INTERPRETER=OFF -DUSE_SOURCE_DEBUG_ON_MOBILE=OFF -DUSE_LITE_INTERPRETER_PROFILER=OFF -DBUILD_CUSTOM_PROTOBUF=ON ..
         cmake --build . --config Release -j 2
-        cmake --build . --config Release --target install
+        cmake --build . --config Release --target install/strip
     - name: torchvision
       run: |
         Invoke-WebRequest -Uri https://github.com/pytorch/vision/archive/refs/tags/v0.12.0.zip -OutFile vision-0.12.0.zip
@@ -166,7 +166,7 @@ jobs:
         mkdir -p build; cd build
         cmake -DCMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/libtorch" -DTorch_DIR="$env:GITHUB_WORKSPACE/libtorch/share/cmake/Torch" ..
         cmake --build . --config Release -j 2
-        cmake --build . --config Release --target install
+        cmake --build . --config Release --target install/strip
     - name: ncnn
       uses: actions/checkout@v3
       with:
@@ -178,7 +178,7 @@ jobs:
         mkdir build && cd build
         cmake -DCMAKE_INSTALL_PREFIX=install -DTorch_INSTALL_DIR="$env:GITHUB_WORKSPACE/libtorch" -DTorchVision_INSTALL_DIR="$env:GITHUB_WORKSPACE/libtorch" ..
         cmake --build . --config Release -j 2
-        cmake --build . --config Release --target install
+        cmake --build . --config Release --target install/strip
     - name: package
       run: |
         mkdir ${{ env.PACKAGENAME }}
