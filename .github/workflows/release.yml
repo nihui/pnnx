@@ -165,6 +165,7 @@ jobs:
         path: pnnx-patches
     - name: libtorch
       run: |
+        export MSYS=winsymlinks:lnk
         curl -L -O https://github.com/pytorch/pytorch/releases/download/v1.11.0/pytorch-v1.11.0.tar.gz
         tar -xf pytorch-v1.11.0.tar.gz
         cd pytorch-v1.11.0
