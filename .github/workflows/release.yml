@@ -155,6 +155,7 @@ jobs:
           xz
           unzip
           patch
+          python3-pip
         pacboy: >-
           toolchain:p
           cmake:p
@@ -169,7 +170,7 @@ jobs:
         curl -L -O https://github.com/pytorch/pytorch/releases/download/v1.11.0/pytorch-v1.11.0.tar.gz
         tar -xf pytorch-v1.11.0.tar.gz
         cd pytorch-v1.11.0
-        pip install -r requirements.txt
+        pip3 install -r requirements.txt
         patch -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\pytorch-v1.11.0-fix-mobile-build.patch
         patch -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\pytorch-v1.11.0-no-link-system-lib.patch
         patch -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\pytorch-v1.11.0-set-python-executable.patch
