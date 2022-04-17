@@ -151,6 +151,10 @@ jobs:
         install: >-
           git
           make
+          tar
+          xz
+          unzip
+          patch
         pacboy: >-
           toolchain:p
           cmake:p
@@ -162,13 +166,12 @@ jobs:
     - name: libtorch
       run: |
         curl -L -O https://github.com/pytorch/pytorch/releases/download/v1.11.0/pytorch-v1.11.0.tar.gz
-        7z x pytorch-v1.11.0.tar.gz
-        7z x pytorch-v1.11.0.tar
+        tar -xf pytorch-v1.11.0.tar.gz
         cd pytorch-v1.11.0
         pip install -r requirements.txt
-        C:\msys64\usr\bin\patch.exe -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\pytorch-v1.11.0-fix-mobile-build.patch
-        C:\msys64\usr\bin\patch.exe -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\pytorch-v1.11.0-no-link-system-lib.patch
-        C:\msys64\usr\bin\patch.exe -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\pytorch-v1.11.0-set-python-executable.patch
+        patch -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\pytorch-v1.11.0-fix-mobile-build.patch
+        patch -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\pytorch-v1.11.0-no-link-system-lib.patch
+        patch -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\pytorch-v1.11.0-set-python-executable.patch
         mkdir -p build; cd build
         cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/libtorch" -DBUILD_SHARED_LIBS=OFF -DBUILD_PYTHON=OFF -DUSE_KINETO=OFF -DUSE_BREAKPAD=OFF -DUSE_NUMPY=OFF -DUSE_CUDA=OFF -DUSE_DISTRIBUTED=OFF -DUSE_MKLDNN=OFF -DUSE_OPENMP=OFF -DUSE_XNNPACK=OFF -DINTERN_BUILD_MOBILE=ON -DINTERN_DISABLE_ONNX=ON -DINTERN_DISABLE_AUTOGRAD=ON -DBUILD_CAFFE2_OPS=OFF -DBUILD_CAFFE2_MOBILE=OFF -DBUILD_LITE_INTERPRETER=OFF -DUSE_SOURCE_DEBUG_ON_MOBILE=OFF -DUSE_LITE_INTERPRETER_PROFILER=OFF -DBUILD_CUSTOM_PROTOBUF=ON ..
         cmake --build . -j 2
@@ -176,10 +179,10 @@ jobs:
     - name: torchvision
       run: |
         curl -L -O https://github.com/pytorch/vision/archive/refs/tags/v0.12.0.zip
-        7z x vision-0.12.0.zip
+        unzip -q vision-0.12.0.zip
         cd vision-0.12.0
-        C:\msys64\usr\bin\patch.exe -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\vision-0.12.0-ops-only.patch
-        C:\msys64\usr\bin\patch.exe -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\vision-0.12.0-no-cuda-version.patch
+        patch -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\vision-0.12.0-ops-only.patch
+        patch -p1 -i $env:GITHUB_WORKSPACE\pnnx-patches\vision-0.12.0-no-cuda-version.patch
         mkdir -p build; cd build
         cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$env:GITHUB_WORKSPACE/libtorch" -DTorch_DIR="$env:GITHUB_WORKSPACE/libtorch/share/cmake/Torch" ..
         cmake --build . -j 2
@@ -199,8 +202,8 @@ jobs:
     - name: package
       run: |
         mkdir ${{ env.PACKAGENAME }}
-        Copy-Item -Verbose -Path "ncnn\tools\pnnx\build\install\bin\pnnx.exe" -Destination ${{ env.PACKAGENAME }}
-        7z a -r ${{ env.PACKAGENAME }}.zip ${{ env.PACKAGENAME }}
+        cp ncnn\tools\pnnx\build\install\bin\pnnx.exe ${{ env.PACKAGENAME }}
+        zip -9 -r ${{ env.PACKAGENAME }}.zip ${{ env.PACKAGENAME }}
     - name: upload
       uses: actions/upload-artifact@v2
       with:
